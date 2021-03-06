@@ -10,3 +10,14 @@ export interface SiteData {
   authorId: string;
   createdAt: string;
 }
+
+export interface Feedback {
+  author: string;
+  authorId: string;
+  createdAt: string;
+  provider: string;
+  rating: number;
+  siteId: string;
+  status: string;
+  text: string;
+}

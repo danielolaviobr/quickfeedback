@@ -1,6 +1,6 @@
 import firebase from "@lib/firebase";
 import { User } from "./@types/auth";
-import { Site, SiteData } from "./@types/firestore";
+import { Feedback, SiteInputData } from "./@types/firestore";
 
 const firestore = firebase.firestore();
 
@@ -16,6 +16,10 @@ export async function createUser(user: User) {
     );
 }
 
-export async function createSite(data: SiteData) {
+export async function createSite(data: SiteInputData) {
   return firestore.collection("sites").add(data);
+}
+
+export async function createFeedback(data: Feedback) {
+  return firestore.collection("feedback").add(data);
 }

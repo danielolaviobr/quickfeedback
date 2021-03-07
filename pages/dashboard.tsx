@@ -7,12 +7,11 @@ import DashboardShell from "@components/DashboardShell";
 import useSWR from "swr";
 import fetcher from "utils/fetcher";
 import SitesTable from "@components/SitesTable";
-import { SiteData } from "@lib/@types/firestore";
+import { Site } from "@lib/@types/firestore";
 
 const Dashboard = () => {
   const { user, signInWithGithub } = useAuth();
-  const { data, error } = useSWR<{ sites: SiteData[] }>("/api/sites", fetcher);
-  console.log(data);
+  const { data, error } = useSWR<{ sites: Site[] }>("/api/sites", fetcher);
   if (!data) {
     return (
       <DashboardShell>

@@ -1,9 +1,9 @@
-export interface Site {
+export interface SiteInputData {
   name: string;
   url: string;
 }
 
-export interface SiteData {
+export interface Site {
   id?: string;
   name: string;
   url: string;
@@ -12,11 +12,12 @@ export interface SiteData {
 }
 
 export interface Feedback {
+  id?: string;
   author: string;
   authorId: string;
   createdAt: string;
   provider: string;
-  rating: number;
+  rating?: number;
   siteId: string;
   status: string;
   text: string;

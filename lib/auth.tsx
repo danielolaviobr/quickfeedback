@@ -36,7 +36,6 @@ function useProvideAuth(): AuthContextData {
 
   const handleUser = (rawUser?: firebase.User): User | undefined => {
     if (rawUser) {
-      console.log(rawUser.displayName);
       const formattedUser = formatUser(rawUser);
       setUser(formattedUser);
       return formattedUser;

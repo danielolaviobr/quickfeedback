@@ -18,7 +18,7 @@ import { mutate } from "swr";
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 
-import { Site } from "@lib/@types/firestore";
+import { SiteInputData } from "@lib/@types/firestore";
 import { createSite } from "@lib/firestore";
 import useAuth from "@lib/auth";
 
@@ -26,10 +26,10 @@ const AddSitesModal: React.FC = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useAuth();
   const initialRef = useRef<HTMLInputElement | null>(null);
-  const { register, handleSubmit } = useForm<Site>();
+  const { register, handleSubmit } = useForm<SiteInputData>();
   const toast = useToast();
 
-  const handleCreateSite = ({ name, url }: Site) => {
+  const handleCreateSite = ({ name, url }: SiteInputData) => {
     const newSite = {
       name,
       url,

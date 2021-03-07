@@ -1,11 +1,12 @@
 import React from "react";
 import { Box, Link } from "@chakra-ui/react";
 import { Table, Tr, Th, Td } from "./Table";
-import { SiteData } from "@lib/@types/firestore";
-import { format, parseISO } from "date-fns";
+import { Site } from "@lib/@types/firestore";
+import { compareAsc, format, parseISO } from "date-fns";
+import NextLink from "next/link";
 
 interface SitesTableProps {
-  sites: SiteData[];
+  sites: Site[];
 }
 
 const SitesTable: React.FC<SitesTableProps> = ({ sites }) => {
@@ -25,15 +26,19 @@ const SitesTable: React.FC<SitesTableProps> = ({ sites }) => {
       </thead>
       <tbody>
         {sites
-          .sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt))
-          .map((site: SiteData) => (
+          .sort((a, b) =>
+            compareAsc(parseISO(a.createdAt), parseISO(b.createdAt))
+          )
+          .map((site: Site) => (
             <Box as="tr" key={site.id}>
               <Td fontWeight="medium">{site.name}</Td>
               <Td>{site.url}</Td>
               <Td>
-                <Link color="purple.500" fontWeight="medium">
-                  View Feedback
-                </Link>
+                <NextLink href="p/[siteId]" as={`p/${site.id}`} passHref>
+                  <Link color="purple.500" fontWeight="medium" as="a">
+                    View Feedback
+                  </Link>
+                </NextLink>
               </Td>
               <Td>{parseDate(site.createdAt)}</Td>
             </Box>

@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           statusCode: res.statusCode
         }
       },
-      JSON.stringify(err)
+      err.message
     );
     res.status(500).json({ ...err });
   }

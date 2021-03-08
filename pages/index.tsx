@@ -53,6 +53,7 @@ export default function Home() {
         <>
           <Button
             mt={4}
+            p={4}
             size="sm"
             variant="black"
             onClick={signInWithGitHub}
@@ -61,6 +62,7 @@ export default function Home() {
             Sign In with GitHub
           </Button>
           <Button
+            p={4}
             mt={4}
             size="sm"
             variant="white"

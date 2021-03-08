@@ -76,7 +76,7 @@ const SiteFeedback: React.FC<SiteFeedback> = ({ initialFeedback }) => {
     >
       <FormControl my={8} onSubmit={handleFormSubmit} as="form">
         <FormLabel>Comment</FormLabel>
-        <Input colorScheme="purple" type="text" ref={inputRef} />
+        <Input colorScheme="purple" type="text" bg="white" ref={inputRef} />
         <Button my={4} type="submit" colorScheme="purple">
           Add comment
         </Button>

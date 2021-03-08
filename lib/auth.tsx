@@ -25,6 +25,7 @@ function useProvideAuth(): AuthContextData {
       .signInWithPopup(new firebase.auth.GithubAuthProvider());
 
     const currentUser = await handleUser(response.user);
+    push("/dashboard");
 
     return currentUser;
   };
@@ -34,6 +35,7 @@ function useProvideAuth(): AuthContextData {
       .signInWithPopup(new firebase.auth.GoogleAuthProvider());
 
     const currentUser = await handleUser(response.user);
+    push("/dashboard");
 
     return currentUser;
   };
@@ -44,7 +46,6 @@ function useProvideAuth(): AuthContextData {
       .signOut()
       .then(() => {
         handleUser(undefined);
-        push("/");
       });
   };
 
@@ -58,11 +59,11 @@ function useProvideAuth(): AuthContextData {
 
       setUser(formattedUser);
       Cookies.set("QuickFeedback-auth", "true", { expires: 1 });
-
       return formattedUser;
     } else {
       Cookies.remove("QuickFeedback-auth");
       setUser(undefined);
+      push("/");
       return undefined;
     }
   };

@@ -29,14 +29,14 @@ const AddSitesModal: React.FC = ({ children }) => {
   const { register, handleSubmit } = useForm<SiteInputData>();
   const toast = useToast();
 
-  const handleCreateSite = ({ name, url }: SiteInputData) => {
+  const handleCreateSite = async ({ name, url }: SiteInputData) => {
     const newSite = {
       name,
       url,
       authorId: user.uid,
       createdAt: new Date().toISOString()
     };
-    createSite(newSite);
+    const { id } = await createSite(newSite);
     onClose();
     toast({
       title: "Your site has been added 🎊",
@@ -47,7 +47,7 @@ const AddSitesModal: React.FC = ({ children }) => {
     mutate(
       ["/api/sites", user.token],
       async ({ sites }) => ({
-        sites: [...sites, newSite]
+        sites: [...sites, { ...newSite, id }]
       }),
       false
     );

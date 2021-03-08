@@ -17,7 +17,9 @@ export async function createUser(user: User) {
 }
 
 export async function createSite(data: SiteInputData) {
-  return firestore.collection("sites").add(data);
+  const site = firestore.collection("sites").doc();
+  await site.set(data);
+  return site;
 }
 
 export async function createFeedback(data: Feedback) {

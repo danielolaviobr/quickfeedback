@@ -8,13 +8,28 @@ import fetcher from "utils/fetcher";
 import FeedbackTable from "@components/FeedbackTable";
 import { Feedback } from "@lib/@types/firestore";
 import FeedbackTableHeader from "@components/FeedbackTableHeader";
+import { useToast } from "@chakra-ui/toast";
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const toast = useToast();
   const { data, error } = useSWR<{ feedback: Feedback[] }>(
     user ? ["/api/feedback", user.token] : null,
     fetcher
   );
+
+  if (error) {
+    toast({
+      status: "error",
+      duration: 5000,
+      title: "Unexpected error",
+      description:
+        "An unexpected error ocurred, please try relaoding the page.",
+      position: "top",
+      isClosable: true
+    });
+  }
+
   if (!data) {
     return (
       <DashboardShell>

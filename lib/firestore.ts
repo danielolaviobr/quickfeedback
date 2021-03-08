@@ -23,3 +23,7 @@ export async function createSite(data: SiteInputData) {
 export async function createFeedback(data: Feedback) {
   return firestore.collection("feedback").add(data);
 }
+
+export async function deleteFeedback(id: string) {
+  return firestore.collection("feedback").doc(id).delete();
+}

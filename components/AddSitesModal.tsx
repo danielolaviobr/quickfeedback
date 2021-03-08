@@ -45,7 +45,7 @@ const AddSitesModal: React.FC = ({ children }) => {
       position: "top"
     });
     mutate(
-      "/api/sites",
+      ["/api/sites", user.token],
       async ({ sites }) => ({
         sites: [...sites, newSite]
       }),
@@ -55,17 +55,7 @@ const AddSitesModal: React.FC = ({ children }) => {
 
   return (
     <>
-      <Button
-        onClick={onOpen}
-        backgroundColor="gray.900"
-        color="white"
-        fontWeight="medium"
-        _hover={{ bg: "gray.700" }}
-        _active={{
-          bg: "gray.800",
-          transform: "scale(0.95)"
-        }}
-      >
+      <Button onClick={onOpen} variant="black">
         {children}
       </Button>
 
@@ -89,7 +79,7 @@ const AddSitesModal: React.FC = ({ children }) => {
                 colorScheme="purple"
                 ref={(e) => {
                   register(e, { required: true });
-                  initialRef.current = e; // you can still assign to ref
+                  initialRef.current = e;
                 }}
                 placeholder="My site"
               />

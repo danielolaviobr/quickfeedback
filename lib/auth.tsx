@@ -1,11 +1,14 @@
 import { useState, useEffect, useContext, createContext } from "react";
-import { User } from "./@types/auth";
-import firebase from "./firebase";
-import { createUser } from "./firestore";
+import Cookies from "js-cookie";
 
+import firebase from "./firebase";
+import { User } from "./@types/auth";
+import { createUser } from "./firestore";
+import { useRouter } from "next/router";
 interface AuthContextData {
   user: User;
-  signInWithGithub(): Promise<User | undefined>;
+  signInWithGitHub(): Promise<User | undefined>;
+  signInWithGoogle(): Promise<User | undefined>;
   signOut(): Promise<void>;
 }
 
@@ -14,14 +17,24 @@ const AuthContext = createContext(initialAuthData);
 
 function useProvideAuth(): AuthContextData {
   const [user, setUser] = useState<User | undefined>(undefined);
+  const { push } = useRouter();
 
-  const signInWithGithub = async () => {
+  const signInWithGitHub = async () => {
     const response = await firebase
       .auth()
       .signInWithPopup(new firebase.auth.GithubAuthProvider());
 
-    const currentUser = handleUser(response.user);
-    createUser(currentUser);
+    const currentUser = await handleUser(response.user);
+
+    return currentUser;
+  };
+  const signInWithGoogle = async () => {
+    const response = await firebase
+      .auth()
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider());
+
+    const currentUser = await handleUser(response.user);
+
     return currentUser;
   };
 
@@ -30,27 +43,37 @@ function useProvideAuth(): AuthContextData {
       .auth()
       .signOut()
       .then(() => {
-        setUser(undefined);
+        handleUser(undefined);
+        push("/");
       });
   };
 
-  const handleUser = (rawUser?: firebase.User): User | undefined => {
+  const handleUser = async (
+    rawUser?: firebase.User
+  ): Promise<User | undefined> => {
     if (rawUser) {
-      const formattedUser = formatUser(rawUser);
+      const formattedUser = await formatUser(rawUser);
+      const { token, ...userWithoutToken } = formattedUser;
+      createUser(userWithoutToken);
+
       setUser(formattedUser);
+      Cookies.set("QuickFeedback-auth", "true", { expires: 1 });
+
       return formattedUser;
     } else {
+      Cookies.remove("QuickFeedback-auth");
       setUser(undefined);
       return undefined;
     }
   };
 
-  const formatUser = (rawUser: firebase.User) => ({
-    uid: rawUser.uid,
-    email: rawUser.email,
-    name: rawUser.displayName,
-    provider: rawUser.providerData[0].providerId,
-    photoUrl: rawUser.photoURL
+  const formatUser = async (user: firebase.User): Promise<User> => ({
+    uid: user.uid,
+    email: user.email,
+    name: user.displayName,
+    provider: user.providerData[0].providerId,
+    photoUrl: user.photoURL,
+    token: await user.getIdToken()
   });
 
   useEffect(() => {
@@ -66,7 +89,8 @@ function useProvideAuth(): AuthContextData {
   return {
     user,
     signOut,
-    signInWithGithub
+    signInWithGitHub,
+    signInWithGoogle
   };
 }
 

@@ -1,7 +1,8 @@
 import { AuthProvider } from "@lib/auth";
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 import theme from "@styles/theme";
-import "tailwindcss/tailwind.css";
+import "@styles/globals.css";
+import React from "react";
 
 function MyApp({ Component, pageProps }) {
   return (

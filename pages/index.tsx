@@ -104,8 +104,9 @@ const Home: React.FC<HomeProps> = ({ feedback: allFeedback }) => {
         bg="white"
         direction="column"
         align="center"
-        justify="center"
+        justify="top"
         px={8}
+        flex="1"
       >
         <Box as="div" maxW="700px" mt={8} my={16} w="100%">
           <FeedbackLink siteId={SITE_ID} />

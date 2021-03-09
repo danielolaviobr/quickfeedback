@@ -20,7 +20,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      initialFeedback: feedback || []
+      initialFeedback: feedback
     },
     revalidate: 1
   };
@@ -44,7 +44,7 @@ const SiteFeedback: React.FC<SiteFeedback> = ({ initialFeedback }) => {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [allFeedback, setAllFeedback] = useState<FeedbackType[]>(
-    initialFeedback
+    initialFeedback || []
   );
 
   const handleFormSubmit = async (event: FormEvent) => {

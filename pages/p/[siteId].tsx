@@ -20,9 +20,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      initialFeedback: feedback.sort((a, b) =>
-        compareDesc(parseISO(a.createdAt), parseISO(b.createdAt))
-      )
+      initialFeedback: feedback || []
     },
     revalidate: 1
   };
@@ -88,9 +86,13 @@ const SiteFeedback: React.FC<SiteFeedback> = ({ initialFeedback }) => {
           Add comment
         </Button>
       </FormControl>
-      {allFeedback.map((feedback) => (
-        <Feedback key={feedback.id || feedback.createdAt} {...feedback} />
-      ))}
+      {allFeedback
+        .sort((a, b) =>
+          compareDesc(parseISO(a.createdAt), parseISO(b.createdAt))
+        )
+        .map((feedback) => (
+          <Feedback key={feedback.id || feedback.createdAt} {...feedback} />
+        ))}
     </Box>
   );
 };

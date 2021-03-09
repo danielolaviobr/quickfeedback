@@ -40,8 +40,8 @@ export async function getCheckoutSession(uid: string, productId: string) {
     .collection("checkout_sessions")
     .add({
       price: priceId,
-      success_url: window.location.origin,
-      cancel_url: window.location.origin
+      success_url: `${window.location.origin}/dashboard`,
+      cancel_url: `${window.location.origin}/dashboard`
     });
   docRef.onSnapshot(async (snapshot) => {
     const { error, sessionId } = snapshot.data();
@@ -112,6 +112,8 @@ export async function goToBillingPortal() {
   const functionRef = app
     .functions("us-central1")
     .httpsCallable("ext-firestore-stripe-subscriptions-createPortalLink");
-  const { data } = await functionRef({ returnUrl: window.location.origin });
+  const { data } = await functionRef({
+    returnUrl: `${window.location.origin}/account`
+  });
   window.location.assign(data.url);
 }

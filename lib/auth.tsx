@@ -68,14 +68,21 @@ function useProvideAuth(): AuthContextData {
     }
   };
 
-  const formatUser = async (user: firebase.User): Promise<User> => ({
-    uid: user.uid,
-    email: user.email,
-    name: user.displayName,
-    provider: user.providerData[0].providerId,
-    photoUrl: user.photoURL,
-    token: await user.getIdToken()
-  });
+  const formatUser = async (user: firebase.User): Promise<User> => {
+    const decodedToken = await firebase
+      .auth()
+      .currentUser.getIdTokenResult(true);
+
+    return {
+      uid: user.uid,
+      email: user.email,
+      name: user.displayName,
+      provider: user.providerData[0].providerId,
+      photoUrl: user.photoURL,
+      token: await user.getIdToken(),
+      stripeRole: decodedToken.claims.stripeRole
+    };
+  };
 
   useEffect(() => {
     const unsubscribe = firebase

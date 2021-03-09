@@ -5,4 +5,5 @@ export interface User {
   provider: string;
   photoUrl: string;
   token?: string;
+  stripeRole?: string;
 }

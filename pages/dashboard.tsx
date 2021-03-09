@@ -9,6 +9,7 @@ import SitesTable from "@components/SitesTable";
 import { Site } from "@lib/@types/firestore";
 import SiteTableHeader from "@components/SiteTableHeader";
 import { useToast } from "@chakra-ui/toast";
+import UpgradeEmptyState from "@components/UpgradeEmptyState";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -17,6 +18,7 @@ const Dashboard = () => {
     user ? ["/api/sites", user.token] : null,
     fetcher
   );
+  const isPaidAccount = !!user?.stripeRole;
 
   if (error) {
     toast({
@@ -33,16 +35,25 @@ const Dashboard = () => {
   if (!data) {
     return (
       <DashboardShell>
-        <SiteTableHeader />
+        <SiteTableHeader isPaidAccount={isPaidAccount} />
         <SiteTableSkeleton />
+      </DashboardShell>
+    );
+  }
+
+  if (data.sites) {
+    return (
+      <DashboardShell>
+        <SiteTableHeader isPaidAccount={isPaidAccount} />
+        <SitesTable sites={data.sites} />
       </DashboardShell>
     );
   }
 
   return (
     <DashboardShell>
-      <SiteTableHeader />
-      {data.sites ? <SitesTable sites={data.sites} /> : <EmptyState />}
+      <SiteTableHeader isPaidAccount={isPaidAccount} />
+      {isPaidAccount ? <EmptyState /> : <UpgradeEmptyState />}
     </DashboardShell>
   );
 };

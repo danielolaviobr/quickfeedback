@@ -37,7 +37,12 @@ const theme = extendTheme({
           backgroundColor: "gray.900",
           color: "white",
           fontWeight: "medium",
-          _hover: { bg: "gray.700" },
+          _hover: {
+            bg: "gray.700",
+            _disabled: {
+              bg: "gray.500"
+            }
+          },
           _active: {
             bg: "gray.800",
             transform: "scale(0.95)"
@@ -47,7 +52,9 @@ const theme = extendTheme({
           backgroundColor: "white",
           color: "black",
           fontWeight: "medium",
-          _hover: { bg: "gray.50" },
+          _hover: {
+            bg: "gray.50"
+          },
           _active: {
             bg: "gray.200",
             transform: "scale(0.95)"

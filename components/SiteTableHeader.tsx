@@ -9,7 +9,7 @@ import {
 
 import AddSitesModal from "./AddSitesModal";
 
-const SiteTableHeader = () => {
+const SiteTableHeader = ({ isPaidAccount }: { isPaidAccount: boolean }) => {
   return (
     <Flex align="center" justify="space-between">
       <Flex direction="column">
@@ -22,7 +22,7 @@ const SiteTableHeader = () => {
         </Breadcrumb>
         <Heading mb={4}>My Sites</Heading>
       </Flex>
-      <AddSitesModal>+ Add site</AddSitesModal>
+      {isPaidAccount && <AddSitesModal>+ Add site</AddSitesModal>}
     </Flex>
   );
 };

@@ -22,3 +22,19 @@ export interface Feedback {
   status: string;
   text: string;
 }
+
+export interface Product {
+  id: string;
+  name?: string;
+  description?: string;
+  price?: number;
+  currency?: string;
+  priceId?: string;
+}
+
+export interface Price {
+  id: string;
+  active?: boolean;
+  currency?: string;
+  amount?: number;
+}

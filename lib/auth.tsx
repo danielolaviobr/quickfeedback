@@ -46,6 +46,7 @@ function useProvideAuth(): AuthContextData {
       .signOut()
       .then(() => {
         handleUser(undefined);
+        push("/");
       });
   };
 
@@ -63,7 +64,6 @@ function useProvideAuth(): AuthContextData {
     } else {
       Cookies.remove("QuickFeedback-auth");
       setUser(undefined);
-      push("/");
       return undefined;
     }
   };

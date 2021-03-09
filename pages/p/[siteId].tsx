@@ -35,7 +35,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   }));
   return {
     paths,
-    fallback: false
+    fallback: true
   };
 };
 
@@ -77,7 +77,12 @@ const SiteFeedback: React.FC<SiteFeedback> = ({ initialFeedback }) => {
       <FormControl my={8} onSubmit={handleFormSubmit} as="form">
         <FormLabel>Comment</FormLabel>
         <Input colorScheme="purple" type="text" bg="white" ref={inputRef} />
-        <Button my={4} type="submit" colorScheme="purple">
+        <Button
+          my={4}
+          type="submit"
+          colorScheme="purple"
+          isDisabled={router.isFallback}
+        >
           Add comment
         </Button>
       </FormControl>

@@ -1,6 +1,10 @@
 import { Flex, Link } from "@chakra-ui/react";
 
-export default function FeedbackLink({ siteId }) {
+interface FeedbackLinkProps {
+  siteId: string;
+}
+
+const FeedbackLink: React.FC<FeedbackLinkProps> = ({ siteId }) => {
   return (
     <Flex justifyContent="space-between" mb={8} width="full" mt={1}>
       <Link fontWeight="bold" fontSize="sm" href={`/p/${siteId}`}>
@@ -11,4 +15,6 @@ export default function FeedbackLink({ siteId }) {
       </Link>
     </Flex>
   );
-}
+};
+
+export default FeedbackLink;

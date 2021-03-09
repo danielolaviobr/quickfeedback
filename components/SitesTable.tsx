@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Link } from "@chakra-ui/react";
 import { Table, Tr, Th, Td } from "./Table";
 import { Site } from "@lib/@types/firestore";
-import { compareAsc, format, parseISO } from "date-fns";
+import { compareDesc, format, parseISO } from "date-fns";
 import NextLink from "next/link";
 
 interface SitesTableProps {
@@ -27,7 +27,7 @@ const SitesTable: React.FC<SitesTableProps> = ({ sites }) => {
       <tbody>
         {sites
           .sort((a, b) =>
-            compareAsc(parseISO(a.createdAt), parseISO(b.createdAt))
+            compareDesc(parseISO(a.createdAt), parseISO(b.createdAt))
           )
           .map((site: Site) => (
             <Box as="tr" key={site.id}>

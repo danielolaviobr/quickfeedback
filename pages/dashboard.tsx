@@ -10,6 +10,7 @@ import { Site } from "@lib/@types/firestore";
 import SiteTableHeader from "@components/SiteTableHeader";
 import { useToast } from "@chakra-ui/toast";
 import UpgradeEmptyState from "@components/UpgradeEmptyState";
+import Page from "@components/Page";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -58,4 +59,10 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+const DashboardPage = () => (
+  <Page name="Dashboard" path="/dashboard">
+    <Dashboard />
+  </Page>
+);
+
+export default DashboardPage;

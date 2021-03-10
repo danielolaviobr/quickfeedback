@@ -43,10 +43,10 @@ const DashboardShell: React.FC = ({ children }) => {
               <Logo as="a" w="24px" h="24px" className="cursor-pointer" />
             </NextLink>
             <NextLink href="/feedback" passHref>
-              <Link>Feedback</Link>
+              <Link fontWeight="medium">Feedback</Link>
             </NextLink>
             <NextLink href="/dashboard" passHref>
-              <Link>Sites</Link>
+              <Link fontWeight="medium">Sites</Link>
             </NextLink>
           </Stack>
           <Stack spacing={4} isInline alignItems="center">

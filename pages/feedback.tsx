@@ -6,14 +6,14 @@ import DashboardShell from "@components/DashboardShell";
 import useSWR from "swr";
 import fetcher from "utils/fetcher";
 import FeedbackTable from "@components/FeedbackTable";
-import { Feedback } from "@lib/@types/firestore";
+import { Feedback as FeedbackType } from "@lib/@types/firestore";
 import FeedbackTableHeader from "@components/FeedbackTableHeader";
 import { useToast } from "@chakra-ui/toast";
 
-const Dashboard = () => {
+const Feedback = () => {
   const { user } = useAuth();
   const toast = useToast();
-  const { data, error } = useSWR<{ feedback: Feedback[] }>(
+  const { data, error } = useSWR<{ feedback: FeedbackType[] }>(
     user ? ["/api/feedback", user.token] : null,
     fetcher
   );
@@ -51,4 +51,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Feedback;

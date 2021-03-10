@@ -13,6 +13,7 @@ import {
   Text
 } from "@chakra-ui/react";
 import DashboardShell from "@components/DashboardShell";
+import Page from "@components/Page";
 import { Product } from "@lib/@types/firestore";
 import useAuth from "@lib/auth";
 import {
@@ -93,9 +94,7 @@ const Account = () => {
                 </Button>
               );
             })}
-            <Button variant="ghost" m={4} onClick={signOut}>
-              Log Out
-            </Button>
+
             <Button
               onClick={() => {
                 setIsLoadingPortal(true);
@@ -114,14 +113,15 @@ const Account = () => {
             >
               Manage Billing
             </Button>
+            <Button variant="ghost" m={4} onClick={signOut}>
+              Log Out
+            </Button>
           </Flex>
         </SettingsTable>
       </Flex>
     </DashboardShell>
   );
 };
-
-export default Account;
 
 const FeedbackUsage = () => {
   const { user } = useAuth();
@@ -171,7 +171,16 @@ const SettingsTable = ({ children }) => {
           >
             Settings
           </Text>
-          <Badge h="1rem" colorScheme="blue">
+          <Badge
+            h="1rem"
+            colorScheme={
+              user?.stripeRole === "premium"
+                ? "purple.500"
+                : user?.stripeRole === "starter"
+                ? "green"
+                : "blue"
+            }
+          >
             {user?.stripeRole || "free"}
           </Badge>
         </Flex>
@@ -182,3 +191,11 @@ const SettingsTable = ({ children }) => {
     </Box>
   );
 };
+
+const AccountPage = () => (
+  <Page name="Account" path="/account">
+    <Account />
+  </Page>
+);
+
+export default AccountPage;

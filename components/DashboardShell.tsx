@@ -45,7 +45,7 @@ const DashboardShell: React.FC = ({ children }) => {
             <NextLink href="/feedback" passHref>
               <Link fontWeight="medium">Feedback</Link>
             </NextLink>
-            <NextLink href="/dashboard" passHref>
+            <NextLink href="/sites" passHref>
               <Link fontWeight="medium">Sites</Link>
             </NextLink>
           </Stack>

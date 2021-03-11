@@ -12,7 +12,7 @@ import { useToast } from "@chakra-ui/toast";
 import UpgradeEmptyState from "@components/UpgradeEmptyState";
 import Page from "@components/Page";
 
-const Dashboard = () => {
+const Sites = () => {
   const { user } = useAuth();
   const toast = useToast();
   const { data, error } = useSWR<{ sites: Site[] }>(
@@ -59,10 +59,10 @@ const Dashboard = () => {
   );
 };
 
-const DashboardPage = () => (
-  <Page name="Dashboard" path="/dashboard">
-    <Dashboard />
+const SitesPage = () => (
+  <Page name="Sites" path="/sites">
+    <Sites />
   </Page>
 );
 
-export default DashboardPage;
+export default SitesPage;

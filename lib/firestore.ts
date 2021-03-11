@@ -29,7 +29,11 @@ export async function createFeedback(data: Feedback) {
 }
 
 export async function deleteFeedback(id: string) {
-  return firestore.collection("feedback").doc(id).delete();
+  return firestore.collection("feedback").doc(id).update({ status: "removed" });
+}
+
+export async function updateFeedback(id: string, value: object) {
+  return firestore.collection("feedback").doc(id).update(value);
 }
 
 export async function getCheckoutSession(uid: string, productId: string) {
@@ -40,8 +44,8 @@ export async function getCheckoutSession(uid: string, productId: string) {
     .collection("checkout_sessions")
     .add({
       price: priceId,
-      success_url: `${window.location.origin}/dashboard`,
-      cancel_url: `${window.location.origin}/dashboard`
+      success_url: `${window.location.origin}/sites`,
+      cancel_url: `${window.location.origin}/sites`
     });
   docRef.onSnapshot(async (snapshot) => {
     const { error, sessionId } = snapshot.data();

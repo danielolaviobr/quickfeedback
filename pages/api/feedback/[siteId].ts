@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getAllFeedback } from "@lib/firestore-admin";
+import { getAllFeedback, getSite } from "@lib/firestore-admin";
 import logger, { prepObjectKeys } from "@utils/logger";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { siteId } = req.query as { [key: string]: string };
   try {
     const feedback = await getAllFeedback(siteId);
+    const site = await getSite(siteId);
 
-    return res.json({ feedback });
+    return res.json({ feedback, site });
   } catch (err) {
     logger.error(
       {

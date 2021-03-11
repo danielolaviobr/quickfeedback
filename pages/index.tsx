@@ -46,7 +46,7 @@ const Home: React.FC<HomeProps> = ({ feedback: allFeedback }) => {
               dangerouslySetInnerHTML={{
                 __html: `
                   if (document.cookie && document.cookie.includes('QuickFeedback-auth')) {
-                    window.location.href = "/dashboard"
+                    window.location.href = "/sites"
                   }
                 `
               }}
@@ -68,7 +68,7 @@ const Home: React.FC<HomeProps> = ({ feedback: allFeedback }) => {
             {`. It's the easiest way to add comments or reviews to your static site. It's still a work-in-progress, but you can try it out by logging in.`}
           </Text>
           {user ? (
-            <Button as="a" mt={4} size="sm" variant="white" href="/dashboard">
+            <Button as="a" mt={4} size="sm" variant="white" href="/sites">
               View Dashboard
             </Button>
           ) : (

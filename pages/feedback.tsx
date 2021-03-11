@@ -9,6 +9,7 @@ import FeedbackTable from "@components/FeedbackTable";
 import { Feedback as FeedbackType } from "@lib/@types/firestore";
 import FeedbackTableHeader from "@components/FeedbackTableHeader";
 import { useToast } from "@chakra-ui/toast";
+import Page from "@components/Page";
 
 const Feedback = () => {
   const { user } = useAuth();
@@ -41,9 +42,11 @@ const Feedback = () => {
 
   return (
     <DashboardShell>
-      <FeedbackTableHeader />
       {data.feedback ? (
-        <FeedbackTable feedback={data.feedback} />
+        <>
+          <FeedbackTableHeader />
+          <FeedbackTable feedback={data.feedback} />
+        </>
       ) : (
         <EmptyState />
       )}
@@ -51,4 +54,10 @@ const Feedback = () => {
   );
 };
 
-export default Feedback;
+const FeedbackPage = () => (
+  <Page name="Feedback" path="/feedback">
+    <Feedback />
+  </Page>
+);
+
+export default FeedbackPage;

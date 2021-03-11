@@ -31,10 +31,24 @@ const SitesTable: React.FC<SitesTableProps> = ({ sites }) => {
           )
           .map((site: Site) => (
             <Box as="tr" key={site.id}>
-              <Td fontWeight="medium">{site.name}</Td>
+              <Td fontWeight="medium">
+                <NextLink
+                  href="/site/[siteId]"
+                  as={`/site/${site.id}`}
+                  passHref
+                >
+                  <Link color="purple.500" fontWeight="medium" as="a">
+                    {site.name}
+                  </Link>
+                </NextLink>
+              </Td>
               <Td>{site.url}</Td>
               <Td>
-                <NextLink href="p/[siteId]" as={`p/${site.id}`} passHref>
+                <NextLink
+                  href="feedback/[siteId]"
+                  as={`feedback/${site.id}`}
+                  passHref
+                >
                   <Link color="purple.500" fontWeight="medium" as="a">
                     View Feedback
                   </Link>

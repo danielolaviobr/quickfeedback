@@ -1,11 +1,14 @@
 import { firestore } from "@lib/firebase-admin";
 import { Feedback, Site } from "./@types/firestore";
 
-export async function getAllFeedback(siteId: string) {
-  const snapshot = await firestore
-    .collection("feedback")
-    .where("siteId", "==", siteId)
-    .get();
+export async function getAllFeedback(siteId: string, route?: string) {
+  const ref = firestore.collection("feedback").where("siteId", "==", siteId);
+
+  if (route) {
+    ref.where("route", "==", route);
+  }
+
+  const snapshot = await ref.get();
 
   const feedback: Feedback[] = [];
 
@@ -14,6 +17,13 @@ export async function getAllFeedback(siteId: string) {
   );
 
   return feedback;
+}
+
+export async function getSite(siteId: string): Promise<Site> {
+  const doc = await firestore.collection("sites").doc(siteId).get();
+  const site = { ...doc.data(), id: doc.id } as Site;
+
+  return site;
 }
 
 export async function getAllSites() {
@@ -31,6 +41,7 @@ export async function getUsersFeedback(uid: string) {
   const snapshot = await firestore
     .collection("feedback")
     .where("authorId", "==", uid)
+    .where("status", "in", ["pending", "active"])
     .get();
 
   const feedback: Feedback[] = [];

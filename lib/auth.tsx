@@ -25,7 +25,7 @@ function useProvideAuth(): AuthContextData {
       .signInWithPopup(new firebase.auth.GithubAuthProvider());
 
     const currentUser = await handleUser(response.user);
-    push("/dashboard");
+    push("/sites");
 
     return currentUser;
   };
@@ -35,7 +35,7 @@ function useProvideAuth(): AuthContextData {
       .signInWithPopup(new firebase.auth.GoogleAuthProvider());
 
     const currentUser = await handleUser(response.user);
-    push("/dashboard");
+    push("/sites");
 
     return currentUser;
   };

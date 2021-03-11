@@ -6,21 +6,29 @@ import {
   Flex,
   Heading
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 
-import AddSitesModal from "./AddSitesModal";
+interface FeedbackTableHeaderProps {
+  name?: string;
+}
 
-const FeedbackTableHeader = () => {
+const FeedbackTableHeader = ({ name = "" }) => {
   return (
     <Flex align="center" justify="space-between">
       <Flex direction="column">
-        <Breadcrumb spacing={4}>
-          <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink color="gray.700" fontSize="lg">
-              Feedback
-            </BreadcrumbLink>
+        <Breadcrumb spacing={4} color="gray.700" fontSize="lg">
+          <BreadcrumbItem isCurrentPage={!name}>
+            <NextLink href="/feedback" as={`/feedback`} passHref>
+              <BreadcrumbLink>Feedback</BreadcrumbLink>
+            </NextLink>
           </BreadcrumbItem>
+          {!!name && (
+            <BreadcrumbItem isCurrentPage>
+              <BreadcrumbLink>{name}</BreadcrumbLink>
+            </BreadcrumbItem>
+          )}
         </Breadcrumb>
-        <Heading mb={4}>My Feedback</Heading>
+        <Heading mb={4}>{name || "My Feedback"}</Heading>
       </Flex>
     </Flex>
   );

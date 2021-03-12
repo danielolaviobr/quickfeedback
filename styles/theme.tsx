@@ -21,7 +21,7 @@ const theme = extendTheme({
       "html, body": {
         minWidth: "360px",
         scrollBehavior: "smooth",
-        backgroundColor: "#edf2f7"
+        backgroundColor: "#EDF2F7"
       },
       "#__next": {
         display: "flex",

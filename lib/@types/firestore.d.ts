@@ -1,6 +1,6 @@
 export interface SiteInputData {
-  name: string;
-  url: string;
+  name?: string;
+  url?: string;
 }
 
 export interface Site {
@@ -9,16 +9,19 @@ export interface Site {
   url: string;
   authorId: string;
   createdAt: string;
+  settings?: Settings;
 }
 
 export interface Feedback {
   id?: string;
+  site?: Site;
   author: string;
   authorId: string;
   createdAt: string;
   provider: string;
   rating?: number;
   siteId: string;
+  route: string;
   status: string;
   text: string;
 }
@@ -37,4 +40,10 @@ export interface Price {
   active?: boolean;
   currency?: string;
   amount?: number;
+}
+
+export interface Settings {
+  icons: boolean;
+  timestamp: boolean;
+  ratings: boolean;
 }

@@ -59,7 +59,7 @@ const DashboardShell: React.FC = ({ children }) => {
           </Stack>
         </Flex>
         <Flex
-          backgroundColor="gray.50"
+          backgroundColor="gray.100"
           alignItems="start"
           justifyContent="center"
           minH="100vh"

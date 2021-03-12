@@ -56,7 +56,7 @@ const SiteFeedback = () => {
   return (
     <DashboardShell>
       <FeedbackTableHeader name={data.site.name} />
-      <FeedbackTable feedback={data.feedback} />
+      <FeedbackTable feedback={data.feedback} site={data.site} />
     </DashboardShell>
   );
 };

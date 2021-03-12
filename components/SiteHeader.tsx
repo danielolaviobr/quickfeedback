@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import NextLink from "next/link";
+import EditSiteModal from "./EditSiteModal";
 
 interface SiteHeaderProps {
   isSiteOwner: boolean;
@@ -20,7 +21,7 @@ const SiteHeader = ({ isSiteOwner, site, siteId, route }: SiteHeaderProps) => {
   const siteName = site?.name;
 
   return (
-    <Box mx={4}>
+    <Box maxW="700px">
       <Breadcrumb>
         <BreadcrumbItem>
           <NextLink href="/sites" passHref>
@@ -42,11 +43,11 @@ const SiteHeader = ({ isSiteOwner, site, siteId, route }: SiteHeaderProps) => {
       </Breadcrumb>
       <Flex justifyContent="space-between">
         <Heading mb={8}>{siteName || "-"}</Heading>
-        {/* {isSiteOwner && (
+        {isSiteOwner && (
           <EditSiteModal settings={site?.settings} siteId={siteId}>
             Edit Site
           </EditSiteModal>
-        )} */}
+        )}
       </Flex>
     </Box>
   );

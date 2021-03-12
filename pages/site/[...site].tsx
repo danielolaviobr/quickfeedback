@@ -1,7 +1,13 @@
 import React, { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { GetStaticProps, GetStaticPaths } from "next";
-import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Textarea
+} from "@chakra-ui/react";
 
 import Feedback from "@components/Feedback";
 import useAuth from "@lib/auth";
@@ -21,7 +27,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       initialFeedback: feedback,
-      route: route || "/",
+      route: route || "",
       siteId,
       site
     },
@@ -57,18 +63,25 @@ const SiteFeedback: React.FC<SiteFeedbackProps> = ({
 }) => {
   const { user } = useAuth();
   const router = useRouter();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState("");
   const [allFeedback, setAllFeedback] = useState<FeedbackType[]>(
     initialFeedback || []
   );
+
+  const defaultSettings = {
+    icons: true,
+    timestamp: true,
+    ratings: true
+  };
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const newFeedback: FeedbackType = {
       author: user.name,
       authorId: user.uid,
-      siteId: router.query.siteId as string,
-      text: inputRef.current.value,
+      siteId,
+      route: route || "/",
+      text: inputValue,
       createdAt: new Date().toISOString(),
       provider: user.provider,
       status: "pending"
@@ -76,19 +89,15 @@ const SiteFeedback: React.FC<SiteFeedbackProps> = ({
 
     setAllFeedback([...allFeedback, newFeedback]);
 
-    inputRef.current.value = "";
+    setInputValue("");
+    console.log("before error");
 
     await createFeedback(newFeedback);
+    console.log("after error");
   };
 
   return (
     <DashboardShell>
-      <SiteHeader
-        siteId={siteId}
-        isSiteOwner={false}
-        route={route}
-        site={site}
-      />
       <Box
         display="flex"
         flexDirection="column"
@@ -96,9 +105,21 @@ const SiteFeedback: React.FC<SiteFeedbackProps> = ({
         maxWidth="700px"
         margin="0 auto"
       >
+        <SiteHeader
+          siteId={siteId}
+          isSiteOwner={site.authorId === user?.uid}
+          route={route}
+          site={site}
+        />
         <FormControl my={8} onSubmit={handleFormSubmit} as="form">
           <FormLabel>Comment</FormLabel>
-          <Input colorScheme="purple" type="text" bg="white" ref={inputRef} />
+          <Textarea
+            colorScheme="purple"
+            type="text"
+            bg="white"
+            onChange={(e) => setInputValue(e.target.value)}
+            value={inputValue}
+          />
           <Button
             my={4}
             type="submit"
@@ -113,7 +134,11 @@ const SiteFeedback: React.FC<SiteFeedbackProps> = ({
             compareDesc(parseISO(a.createdAt), parseISO(b.createdAt))
           )
           .map((feedback) => (
-            <Feedback key={feedback.id || feedback.createdAt} {...feedback} />
+            <Feedback
+              key={feedback.id || feedback.createdAt}
+              settings={site.settings || defaultSettings}
+              {...feedback}
+            />
           ))}
       </Box>
     </DashboardShell>

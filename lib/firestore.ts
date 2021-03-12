@@ -1,7 +1,13 @@
 import firebase from "@lib/firebase";
 import getStripe from "@lib/stripe";
 import { User } from "./@types/auth";
-import { Feedback, Price, Product, SiteInputData } from "./@types/firestore";
+import {
+  Feedback,
+  Price,
+  Product,
+  Settings,
+  SiteInputData
+} from "./@types/firestore";
 
 const firestore = firebase.firestore();
 const app = firebase.app();
@@ -24,8 +30,30 @@ export async function createSite(data: SiteInputData) {
   return site;
 }
 
+export async function deleteSite(siteId: string) {
+  await firestore.collection("sites").doc(siteId).delete();
+  const feedback = await firestore
+    .collection("feedback")
+    .where("siteId", "==", siteId)
+    .get();
+
+  const batch = firestore.batch();
+
+  feedback.forEach((doc) => batch.delete(doc.ref));
+
+  return batch.commit();
+}
+
+export async function updateSite(siteId: string, data: object) {
+  const site = firestore.collection("sites").doc(siteId);
+  await site.update(data);
+  return site;
+}
+
 export async function createFeedback(data: Feedback) {
-  return firestore.collection("feedback").add(data);
+  console.log(data);
+  const feedback = await firestore.collection("feedback").add(data);
+  return feedback;
 }
 
 export async function deleteFeedback(id: string) {

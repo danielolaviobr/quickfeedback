@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Code, Link, Switch } from "@chakra-ui/react";
 import { Table, Tr, Th, Td } from "./Table";
-import { Feedback } from "@lib/@types/firestore";
+import { Feedback, Site } from "@lib/@types/firestore";
 import { compareAsc, parseISO } from "date-fns";
 import AlertDialogExample from "./RemoveButton";
 import { updateFeedback } from "@lib/firestore";
@@ -10,6 +10,7 @@ import useAuth from "@lib/auth";
 
 interface FeedbackTableProps {
   feedback: Feedback[];
+  site?: Site;
 }
 
 interface Toggle {
@@ -18,9 +19,11 @@ interface Toggle {
 }
 
 const FeedbackTable: React.FC<FeedbackTableProps> = ({
-  feedback: allFeedback
+  feedback: allFeedback,
+  site
 }) => {
   const { user } = useAuth();
+
   const [togglesState, setTogglesState] = useState<Toggle[]>([
     ...allFeedback.map((feedback: Feedback) => ({
       value: feedback.status === "active",
@@ -79,10 +82,10 @@ const FeedbackTable: React.FC<FeedbackTableProps> = ({
           )
           .map((feedback: Feedback) => (
             <Box as="tr" key={feedback.id}>
-              <Td fontWeight="medium">{feedback.author}</Td>
+              <Td fontWeight="medium">{feedback.site?.name}</Td>
               <Td>{feedback.text}</Td>
               <Td>
-                <Code>{"/"}</Code>
+                <Code>{feedback.route || "/"}</Code>
               </Td>
               <Td>
                 <Switch

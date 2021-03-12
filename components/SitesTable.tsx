@@ -4,6 +4,7 @@ import { Table, Tr, Th, Td } from "./Table";
 import { Site } from "@lib/@types/firestore";
 import { compareDesc, format, parseISO } from "date-fns";
 import NextLink from "next/link";
+import DeleteSiteButton from "./DeleteSiteButton";
 
 interface SitesTableProps {
   sites: Site[];
@@ -14,7 +15,7 @@ const SitesTable: React.FC<SitesTableProps> = ({ sites }) => {
     return format(parseISO(date), "PPpp");
   };
   return (
-    <Table>
+    <Table borderRadius="8px">
       <thead>
         <Tr>
           <Th>Name</Th>
@@ -55,6 +56,9 @@ const SitesTable: React.FC<SitesTableProps> = ({ sites }) => {
                 </NextLink>
               </Td>
               <Td>{parseDate(site.createdAt)}</Td>
+              <Td>
+                <DeleteSiteButton siteId={site.id} />
+              </Td>
             </Box>
           ))}
       </tbody>

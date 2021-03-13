@@ -33,6 +33,7 @@ const Sites = () => {
     });
   }
 
+  // console.log(isPaidAccount);
   if (!data) {
     return (
       <DashboardShell>
@@ -42,7 +43,7 @@ const Sites = () => {
     );
   }
 
-  if (data.sites) {
+  if (data.sites.length !== 0) {
     return (
       <DashboardShell>
         <SiteTableHeader isPaidAccount={isPaidAccount} />
@@ -51,6 +52,7 @@ const Sites = () => {
     );
   }
 
+  console.log(isPaidAccount);
   return (
     <DashboardShell>
       <SiteTableHeader isPaidAccount={isPaidAccount} />

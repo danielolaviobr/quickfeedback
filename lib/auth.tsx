@@ -1,4 +1,10 @@
-import { useState, useEffect, useContext, createContext } from "react";
+import {
+  useState,
+  useEffect,
+  useContext,
+  createContext,
+  useCallback
+} from "react";
 import Cookies from "js-cookie";
 
 import firebase from "./firebase";
@@ -10,6 +16,7 @@ interface AuthContextData {
   signInWithGitHub(): Promise<User | undefined>;
   signInWithGoogle(): Promise<User | undefined>;
   signOut(): Promise<void>;
+  signInWithEmail(): Promise<void>;
 }
 
 const initialAuthData: AuthContextData = undefined;
@@ -68,6 +75,14 @@ function useProvideAuth(): AuthContextData {
     }
   };
 
+  const signInWithEmail = useCallback(async () => {
+    const response = await firebase
+      .auth()
+      .signInWithEmailAndPassword("checkly@quickfeedback.io", "checkly");
+    const currentUser = await handleUser(response.user);
+    console.log(currentUser);
+  }, []);
+
   const formatUser = async (user: firebase.User): Promise<User> => {
     const decodedToken = await firebase
       .auth()
@@ -80,7 +95,7 @@ function useProvideAuth(): AuthContextData {
       provider: user.providerData[0].providerId,
       photoUrl: user.photoURL,
       token: await user.getIdToken(),
-      stripeRole: decodedToken.claims.stripeRole
+      stripeRole: decodedToken.claims.stripeRole || ""
     };
   };
 
@@ -98,7 +113,8 @@ function useProvideAuth(): AuthContextData {
     user,
     signOut,
     signInWithGitHub,
-    signInWithGoogle
+    signInWithGoogle,
+    signInWithEmail
   };
 }
 

@@ -20,14 +20,14 @@ const Feedback = ({ author, text, createdAt, settings }: FeedbackProps) => {
     <Box borderRadius={4} maxWidth="700px" w="full">
       <Heading size="sm" as="h3" mb={0} color="gray.900" fontWeight="medium">
         {author}
-        {settings.icons &&
+        {settings?.icons &&
           (user?.provider === "google.com" ? (
             <Google mx={2} />
           ) : user?.provider === "github.com" ? (
             <GitHub mx={2} />
           ) : null)}
       </Heading>
-      {settings.timestamp && (
+      {settings?.timestamp && (
         <Text color="gray.500" mb={4} fontSize="xs">
           {format(parseISO(createdAt), "PPpp")}
         </Text>

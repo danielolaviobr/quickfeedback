@@ -19,15 +19,18 @@ import DashboardShell from "@components/DashboardShell";
 import SiteHeader from "@components/SiteHeader";
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  console.log(context.params, "HEEERE");
   const [siteId, route] = (context.params.site as string[]) || [];
   const feedback = await getAllFeedback(siteId);
   const site = await getSite(siteId);
+  let newRoute = route;
+  if (!route) {
+    newRoute = null;
+  }
 
   return {
     props: {
       initialFeedback: feedback,
-      route: route || "",
+      route: newRoute,
       siteId,
       site
     },
@@ -39,7 +42,8 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const sites = await getAllSites();
   const paths = sites.map((site) => ({
     params: {
-      site: [site.id]
+      site: [site.id],
+      route: "/"
     }
   }));
   return {
@@ -107,7 +111,7 @@ const SiteFeedback: React.FC<SiteFeedbackProps> = ({
       >
         <SiteHeader
           siteId={siteId}
-          isSiteOwner={site.authorId === user?.uid}
+          isSiteOwner={site?.authorId === user?.uid}
           route={route}
           site={site}
         />

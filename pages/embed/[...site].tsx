@@ -19,12 +19,16 @@ interface SiteFeedbackProps {
 export const getStaticProps: GetStaticProps = async (context) => {
   const [siteId, route] = (context.params.site as string[]) || [];
   const feedback = await getAllFeedback(siteId);
+  let newRoute = route;
+  if (!route) {
+    newRoute = null;
+  }
 
   return {
     props: {
       initialFeedback: feedback,
       siteId,
-      route
+      route: newRoute
     },
     revalidate: 1
   };
@@ -34,7 +38,8 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const sites = await getAllSites();
   const paths = sites.map((site) => ({
     params: {
-      site: [site.id]
+      site: [site.id],
+      route: "/"
     }
   }));
   return {
@@ -50,6 +55,12 @@ const SiteFeedback: React.FC<SiteFeedbackProps> = ({ initialFeedback }) => {
   const [allFeedback, setAllFeedback] = useState<FeedbackType[]>(
     initialFeedback || []
   );
+
+  const defaultSettings = {
+    icons: true,
+    timestamp: true,
+    ratings: true
+  };
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -90,7 +101,11 @@ const SiteFeedback: React.FC<SiteFeedbackProps> = ({ initialFeedback }) => {
           compareDesc(parseISO(a.createdAt), parseISO(b.createdAt))
         )
         .map((feedback) => (
-          <Feedback key={feedback.id || feedback.createdAt} {...feedback} />
+          <Feedback
+            key={feedback.id || feedback.createdAt}
+            {...feedback}
+            settings={defaultSettings}
+          />
         ))}
     </Box>
   );

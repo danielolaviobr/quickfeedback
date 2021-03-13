@@ -10,10 +10,21 @@ interface FeedbackProps {
   author?: string;
   text?: string;
   createdAt: string;
-  settings: Settings;
+  settings?: Settings;
 }
 
-const Feedback = ({ author, text, createdAt, settings }: FeedbackProps) => {
+const defaultSettings = {
+  icons: true,
+  timestamp: true,
+  ratings: true
+};
+
+const Feedback = ({
+  author,
+  text,
+  createdAt,
+  settings = defaultSettings
+}: FeedbackProps) => {
   const { user } = useAuth();
   console.log(settings);
   return (

@@ -60,7 +60,8 @@ const SiteFeedback: React.FC<SiteFeedbackProps> = ({ initialFeedback }) => {
       text: inputRef.current.value,
       createdAt: new Date().toISOString(),
       provider: user.provider,
-      status: "pending"
+      status: "pending",
+      route: "/"
     };
 
     setAllFeedback([...allFeedback, newFeedback]);
